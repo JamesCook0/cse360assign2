@@ -1,7 +1,7 @@
 /* 
  * Name: James Cook
  * Class ID: 167
- * Assignment: 1
+ * Assignment: 2
 */
 
 /**
@@ -32,6 +32,19 @@ public class SimpleList {
 	 */
 
 	public void add(int listElement) {
+		// increment count
+		this.count++;
+		// if new list size will exceed old size, increase size of array list by 50%
+		if(this.count == this.list.length) {
+			int[] tempList = this.list;
+			if(this.list.length == 1) {
+				this.list = new int[(this.list.length + 1)];
+			}
+			else {
+				this.list = new int[(this.list.length + (this.list.length/2))];
+			}
+			System.arraycopy(tempList, 0, this.list, 0, tempList.length);
+		}
 		// iterate backward through list, moving elements forward
 		for(int listIndex = this.count; listIndex> 0; listIndex--) {
 			// if listIndex= 10, don't move elements forward
@@ -41,9 +54,6 @@ public class SimpleList {
 		}
 		// insert listElement at beginning of list
 		this.list[0] = listElement;
-		if(this.count < 10) {
-			count++;
-		}
 	}
 	
 	/**
@@ -60,6 +70,14 @@ public class SimpleList {
 			}
 			// decrement count
 			this.count--;
+		}
+		// decrease size of list if more than 25% of list is empty
+		if(count < (.75 * this.list.length) && this.list.length > 1){
+			int[] tempList = this.list;
+			this.list = new int[tempList.length - 1];
+			for(int iterator = 0; iterator < count; iterator++) {
+				this.list[iterator] = tempList[iterator];
+			}
 		}
 	}
 	
@@ -99,6 +117,58 @@ public class SimpleList {
 		}
 		// Return indelistElement of array if found, else return -1 for not found
 		return arrayLocation;
+	}
+	
+	/**
+	 * Function to append int to end of list
+	 */
+	
+	public void append(int listElement) {
+		// increment count
+		this.count++;
+		// if new list size will exceed old size, increase size of array list by 50%
+		if(this.count == this.list.length) {
+			int[] tempList = this.list;
+			this.list = new int[this.list.length + (this.list.length/2)];
+			System.arraycopy(tempList, 0, this.list, 0, tempList.length);
+		}
+		// add list element to the end of list
+		this.list[count] = listElement;
+	}
+	
+	
+	/**
+	 * Function to return first element in list
+	 */
+	public int first() {
+		// if count is not zero return first element, else return -1
+		if(this.count != 0) {
+			return this.list[0];
+		}else {
+			return -1;
+		}
+	}
+	
+	
+	/**
+	 * Function to return last element in list
+	 */
+	public int last() {
+		// if count is not zero, return last element, else return -1
+		if(this.count != 0) {
+			return this.list[count-1];
+		}
+		else {
+			return -1;
+		}
+	}
+	
+	
+	/**
+	 * Function to return size of list
+	 */
+	public int size() {
+		return this.list.length;
 	}
 	
 }
